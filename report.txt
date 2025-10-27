@@ -1,7 +1,7 @@
 ----
 Title: Hackers exploiting critical "SessionReaper" flaw in Adobe Magento
 URL: https://www.bleepingcomputer.com/news/security/hackers-exploiting-critical-sessionreaper-flaw-in-adobe-magento/
-Author: Home
+Author: Bill Toulas
 Published: October 22, 2025
 Summary:
 Hackers are actively exploiting the critical SessionReaper vulnerability (CVE-2025-54236) in Adobe
@@ -14,7 +14,7 @@ versions 2.4.9-alpha2, 2.4.8-p2, 2.4.7-p7, 2.4.6-p12, 2.4.5-p14, 2.4.4-p15 (and 
 ----
 Title: Hackers earn $1,024,750 for 73 zero-days at Pwn2Own Ireland
 URL: https://www.bleepingcomputer.com/news/security/hackers-earn-1-024-750-for-73-zero-days-at-pwn2own-ireland/
-Author: Home
+Author: Sergiu Gatlan
 Published: October 24, 2025
 Summary:
 ​The Pwn2Own Ireland 2025 hacking competition has ended with security researchers collecting
@@ -29,7 +29,7 @@ hack locked devices via a physical connection.
 ----
 Title: PhantomCaptcha ClickFix attack targets Ukraine war relief orgs
 URL: https://www.bleepingcomputer.com/news/security/phantomcaptcha-clickfix-attack-targets-ukraine-war-relief-orgs/
-Author: Home
+Author: Bill Toulas
 Published: October 22, 2025
 Summary:
 A spearphishing attack that lasted a single day targeted members of the Ukrainian regional
@@ -44,7 +44,7 @@ infrastructure, as some domains used in the operation were registered at the end
 ----
 Title: QNAP warns of critical ASP.NET flaw in its Windows backup software
 URL: https://www.bleepingcomputer.com/news/security/qnap-warns-its-windows-backup-software-is-also-affected-by-critical-aspnet-flaw/
-Author: Home
+Author: Sergiu Gatlan
 Published: October 27, 2025
 Summary:
 QNAP warned customers to patch a critical ASP.NET Core vulnerability that also impacts the company's
@@ -57,7 +57,7 @@ Microsoft ASP.NET Core components during setup.
 ----
 Title: Italian spyware vendor linked to Chrome zero-day attacks
 URL: https://www.bleepingcomputer.com/news/security/italian-spyware-vendor-linked-to-chrome-zero-day-attacks/
-Author: Home
+Author: Bill Toulas
 Published: October 27, 2025
 Summary:
 A zero-day vulnerability in Google Chrome, exploited in Operation ForumTroll earlier this year,
@@ -70,7 +70,7 @@ forum that contained a malicious link.
 ----
 Title: Toys “R” Us Canada warns customers' info leaked in data breach
 URL: https://www.bleepingcomputer.com/news/security/toys-r-us-canada-warns-customers-info-leaked-in-data-breach/
-Author: Home
+Author: Bill Toulas
 Published: October 23, 2025
 Summary:
 Toys “R” Us Canada has sent notices of a data breach to customers informing them of a security
@@ -95,7 +95,7 @@ sensitive personal information belonging to 689,000 customers of American First 
 ----
 Title: Auction giant Sotheby’s says data breach exposed financial information
 URL: https://www.bleepingcomputer.com/news/security/auction-giant-sothebys-says-data-breach-exposed-financial-information/
-Author: Home
+Author: Bill Toulas
 Published: October 16, 2025
 Summary:
 Major international auction house Sotheby’s is notifying individuals of a data breach incident on
@@ -107,7 +107,7 @@ and high-value items, as well as an asset-backed lending services provider.
 ----
 Title: Have I Been Pwned: Prosper data breach impacts 17.6 million accounts
 URL: https://www.bleepingcomputer.com/news/security/have-i-been-pwned-warns-of-prosper-data-breach-impacting-176-million-accounts/
-Author: Home
+Author: Sergiu Gatlan
 Published: October 16, 2025
 Summary:
 Hackers stole the personal information of over 17.6 million people after breaching the systems of
@@ -119,7 +119,7 @@ Prosper has yet to find evidence that the attackers gained access to customer ac
 ----
 Title: Capita to pay £14 million for data breach impacting 6.6 million people
 URL: https://www.bleepingcomputer.com/news/security/capita-to-pay-14-million-for-data-breach-impacting-66-million-people/
-Author: Home
+Author: Bill Toulas
 Published: October 15, 2025
 Summary:
 The Information Commissioner’s Office (ICO) in the UK has fined Capita, a provider of data-driven
@@ -133,7 +133,7 @@ Capita's clients are mostly in the UK and Europe.
 ----
 Title: Clothing giant MANGO discloses data breach exposing customer info
 URL: https://www.bleepingcomputer.com/news/security/clothing-giant-mango-discloses-data-breach-exposing-customer-info/
-Author: Home
+Author: Bill Toulas
 Published: October 15, 2025
 Summary:
 Spanish fashion retailer MANGO is sending notices of a data breach to its customers, warning that
@@ -145,7 +145,7 @@ an annual revenue of €3.3 billion, of which approximately 30% comes from onlin
 ----
 Title: F5 says hackers stole undisclosed BIG-IP flaws, source code
 URL: https://www.bleepingcomputer.com/news/security/hackers-breach-f5-to-steal-undisclosed-big-ip-flaws-source-code/
-Author: Home
+Author: Bill Toulas
 Published: October 15, 2025
 Summary:
 U.S. cybersecurity company F5 disclosed that nation-state hackers breached its systems and stole
@@ -157,7 +157,7 @@ environment and engineering knowledge management platform.
 ----
 Title: SimonMed says 1.2 million patients impacted in January data breach
 URL: https://www.bleepingcomputer.com/news/security/simonmed-says-12-million-patients-impacted-in-january-data-breach/
-Author: Home
+Author: Bill Toulas
 Published: October 13, 2025
 Summary:
 U.S. medical imaging provider SimonMed Imaging is notifying more than 1.2 million individuals of a
@@ -168,7 +168,7 @@ PET, nuclear medicine, bone density, and interventional radiology procedures.
 ----
 Title: Harvard investigating breach linked to Oracle zero-day exploit
 URL: https://www.bleepingcomputer.com/news/security/harvard-investigating-breach-linked-to-oracle-zero-day-exploit/
-Author: Home
+Author: Lawrence Abrams
 Published: October 13, 2025
 Summary:
 Harvard University is investigating a data breach after the Clop ransomware gang listed the school
@@ -182,7 +182,7 @@ BleepingComputer.
 ----
 Title: Hackers claim Discord breach exposed data of 5.5 million users
 URL: https://www.bleepingcomputer.com/news/security/hackers-claim-discord-breach-exposed-data-of-55-million-users/
-Author: Home
+Author: Lawrence Abrams
 Published: October 8, 2025
 Summary:
 Discord says they will not be paying threat actors who claim to have stolen the data of 5.5 million
@@ -196,7 +196,7 @@ involving a third-party service used for customer support.
 ----
 Title: DraftKings warns of account breaches in credential stuffing attacks
 URL: https://www.bleepingcomputer.com/news/security/draftkings-warns-of-account-breaches-in-credential-stuffing-attacks/
-Author: Home
+Author: Sergiu Gatlan
 Published: October 7, 2025
 Summary:
 Sports betting giant DraftKings has notified an undisclosed number of customers that their accounts
@@ -208,7 +208,7 @@ is an official partner of the NFL, NHL, PGA TOUR, WNBA, UFC, and NASCAR. DraftKi
 ----
 Title: Electronics giant Avnet confirms breach, says stolen data unreadable
 URL: https://www.bleepingcomputer.com/news/security/electronics-giant-avnet-confirms-breach-says-stolen-data-unreadable/
-Author: Home
+Author: Bill Toulas
 Published: October 7, 2025
 Summary:
 Electronic components distributor Avnet confirmed in a statement for BleepingComputer that it
@@ -221,7 +221,7 @@ storage supporting an internal sales tool used in EMEA," stated the spokesperson
 ----
 Title: Red Hat data breach escalates as ShinyHunters joins extortion
 URL: https://www.bleepingcomputer.com/news/security/red-hat-data-breach-escalates-as-shinyhunters-joins-extortion/
-Author: Home
+Author: Lawrence Abrams
 Published: October 6, 2025
 Summary:
 Enterprise software giant Red Hat is now being extorted by the ShinyHunters gang, with samples of
@@ -234,7 +234,7 @@ information about a customer's network, infrastructure, and platforms.
 ----
 Title: ParkMobile pays... $1 each for 2021 data breach that hit 22 million
 URL: https://www.bleepingcomputer.com/news/security/parkmobile-pays-1-each-for-2021-data-breach-that-hit-22-million/
-Author: Home
+Author: Ax Sharma
 Published: October 5, 2025
 Summary:
 ParkMobile has finally wrapped up a class action lawsuit over the platform's 2021 data breach that
@@ -244,7 +244,7 @@ in-app credit, which they must claim manually. And, it comes with an expiration 
 ----
 Title: Discord discloses data breach after hackers steal support tickets
 URL: https://www.bleepingcomputer.com/news/security/discord-discloses-data-breach-after-hackers-steal-support-tickets/
-Author: Home
+Author: Ionut Ilascu
 Published: October 4, 2025
 Summary:
 Hackers stole partial payment information and personally identifiable data, including names and
