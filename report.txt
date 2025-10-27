@@ -1,0 +1,256 @@
+----
+Title: Hackers exploiting critical "SessionReaper" flaw in Adobe Magento
+URL: https://www.bleepingcomputer.com/news/security/hackers-exploiting-critical-sessionreaper-flaw-in-adobe-magento/
+Author: Home
+Published: October 22, 2025
+Summary:
+Hackers are actively exploiting the critical SessionReaper vulnerability (CVE-2025-54236) in Adobe
+Commerce (formerly Magento) platforms, with hundreds of attempts recorded. The activity was spotted
+by e-commerce security firm Sansec, whose researchers previously described SessionReaper as one of
+the most severe security bugs in the history of the product. Adobe warned about CVE-2025-54236 on
+September 8, saying that it is an improper input validation vulnerability that impacts Commerce
+versions 2.4.9-alpha2, 2.4.8-p2, 2.4.7-p7, 2.4.6-p12, 2.4.5-p14, 2.4.4-p15 (and earlier).
+
+----
+Title: Hackers earn $1,024,750 for 73 zero-days at Pwn2Own Ireland
+URL: https://www.bleepingcomputer.com/news/security/hackers-earn-1-024-750-for-73-zero-days-at-pwn2own-ireland/
+Author: Home
+Published: October 24, 2025
+Summary:
+​The Pwn2Own Ireland 2025 hacking competition has ended with security researchers collecting
+$1,024,750 in cash awards after exploiting 73 zero-day vulnerabilities. At Pwn2Own Ireland 2025,
+competitors targeted products in eight categories , including printers, network storage systems,
+messaging apps, smart home devices, surveillance equipment, home networking equipment, flagship
+smartphones (Apple iPhone 16, Samsung Galaxy S25, and Google Pixel 9), and wearable technology
+(including Meta's Ray-Ban Smart Glasses and Quest 3/3S headsets). This year's contest also expanded
+the attack surface to include USB port exploitation on mobile handsets, requiring researchers to
+hack locked devices via a physical connection.
+
+----
+Title: PhantomCaptcha ClickFix attack targets Ukraine war relief orgs
+URL: https://www.bleepingcomputer.com/news/security/phantomcaptcha-clickfix-attack-targets-ukraine-war-relief-orgs/
+Author: Home
+Published: October 22, 2025
+Summary:
+A spearphishing attack that lasted a single day targeted members of the Ukrainian regional
+government administration and organizations critical for the war relief effort in Ukraine, including
+the International Committee of the Red Cross, UNICEF, and various NGOs. Dubbed PhantomCaptcha, the
+one-day campaign attempted to trick victims into running commands used in ClickFix attacks,
+disguised as Cloudflare CAPTCHA verification prompts, to install a WebSocket Remote Access Trojan
+(RAT). SentinelLABS, the threat research division at SentinelOne, says that the campaign started and
+ended on October 8, and that the attacker spent significant time and effort to set up the necessary
+infrastructure, as some domains used in the operation were registered at the end of March.
+
+----
+Title: QNAP warns of critical ASP.NET flaw in its Windows backup software
+URL: https://www.bleepingcomputer.com/news/security/qnap-warns-its-windows-backup-software-is-also-affected-by-critical-aspnet-flaw/
+Author: Home
+Published: October 27, 2025
+Summary:
+QNAP warned customers to patch a critical ASP.NET Core vulnerability that also impacts the company's
+NetBak PC Agent, a Windows utility for backing up data to a QNAP network-attached storage (NAS)
+device. Tracked as CVE-2025-55315 , this security bypass flaw was found in the Kestrel ASP.NET Core
+web server and enables attackers with low privileges to hijack other users' credentials or bypass
+front-end security controls via HTTP request smuggling . "NetBak PC Agent installs and depends on
+Microsoft ASP.NET Core components during setup.
+
+----
+Title: Italian spyware vendor linked to Chrome zero-day attacks
+URL: https://www.bleepingcomputer.com/news/security/italian-spyware-vendor-linked-to-chrome-zero-day-attacks/
+Author: Home
+Published: October 27, 2025
+Summary:
+A zero-day vulnerability in Google Chrome, exploited in Operation ForumTroll earlier this year,
+delivered malware linked to Italian spyware vendor Memento Labs, born after IntheCyber ​​Group
+acquired the infamous Hacking Team. Operation ForumTroll was uncovered by Kaspersky in March. The
+campaign targeted Russian organizations - media outlets, universities, research centers, government
+organizations, and financial institutions, with well-crafted invitations to the Primakov Readings
+forum that contained a malicious link.
+
+----
+Title: Toys “R” Us Canada warns customers' info leaked in data breach
+URL: https://www.bleepingcomputer.com/news/security/toys-r-us-canada-warns-customers-info-leaked-in-data-breach/
+Author: Home
+Published: October 23, 2025
+Summary:
+Toys “R” Us Canada has sent notices of a data breach to customers informing them of a security
+incident where threat actors leaked customer records they had previously stolen from its systems.
+The company discovered the data leak on July 30, 2025, when a threat actor posted on the dark web
+what they claimed to be Toys “R” Us customer data. Subsequent investigation of the threat actor’s
+claims, conducted with the help of third-party experts, confirmed that the information was indeed
+authentic.
+
+----
+Title: FinWise data breach shows why encryption is your last defense
+URL: https://www.bleepingcomputer.com/news/security/finwise-data-breach-shows-why-encryption-is-your-last-defense/
+Author: Home
+Published: October 22, 2025
+Summary:
+The 2024 FinWise data breach serves as a stark example of the growing insider threats faced by
+modern financial institutions. Unlike typical cyberattacks originating from external hackers, this
+incident stemmed from unauthorized access by a former employee using retained credentials. On May
+31, 2024, the ex-employee accessed FinWise Bank’s systems after leaving the company and leaked
+sensitive personal information belonging to 689,000 customers of American First Finance (AFF).
+
+----
+Title: Auction giant Sotheby’s says data breach exposed financial information
+URL: https://www.bleepingcomputer.com/news/security/auction-giant-sothebys-says-data-breach-exposed-financial-information/
+Author: Home
+Published: October 16, 2025
+Summary:
+Major international auction house Sotheby’s is notifying individuals of a data breach incident on
+its systems where threat actors stole sensitive information, including financial details. The hack
+was detected on July 24 and the investigtion took two months to determine they type of data stolen
+and the individuals impacted as a result. Sotheby’s is a leading global auction house for fine art
+and high-value items, as well as an asset-backed lending services provider.
+
+----
+Title: Have I Been Pwned: Prosper data breach impacts 17.6 million accounts
+URL: https://www.bleepingcomputer.com/news/security/have-i-been-pwned-warns-of-prosper-data-breach-impacting-176-million-accounts/
+Author: Home
+Published: October 16, 2025
+Summary:
+Hackers stole the personal information of over 17.6 million people after breaching the systems of
+financial services company Prosper. Prosper operates as a peer-to-peer lending marketplace that has
+helped over 2 million customers secure more than $30 billion in loans since its founding in 2005. As
+the company disclosed one month ago on a dedicated page, the breach was detected on September 2, but
+Prosper has yet to find evidence that the attackers gained access to customer accounts and funds.
+
+----
+Title: Capita to pay £14 million for data breach impacting 6.6 million people
+URL: https://www.bleepingcomputer.com/news/security/capita-to-pay-14-million-for-data-breach-impacting-66-million-people/
+Author: Home
+Published: October 15, 2025
+Summary:
+The Information Commissioner’s Office (ICO) in the UK has fined Capita, a provider of data-driven
+business process services, £14 million ($18.7 million) for a data breach incident in 2023 that
+exposed the personal information of 6.6 million people. Capita is a major UK-based outsourcing and
+professional services company that provides consulting, digital, and software services to local
+councils, the NHS, the Ministry of Defense, and organizations in the banking, utilities, and
+telecommunications sectors. With around 34,000 employees and an annual revenue of £3 billion,
+Capita's clients are mostly in the UK and Europe.
+
+----
+Title: Clothing giant MANGO discloses data breach exposing customer info
+URL: https://www.bleepingcomputer.com/news/security/clothing-giant-mango-discloses-data-breach-exposing-customer-info/
+Author: Home
+Published: October 15, 2025
+Summary:
+Spanish fashion retailer MANGO is sending notices of a data breach to its customers, warning that
+its marketing vendor suffered a compromise exposing personal data. Founded in 1984 in Barcelona,
+MANGO is a clothing and fashion accessories designer and manufacturer, operating physical and
+e-commerce stores in 2,800 locations across 120 countries. The company employs 16,300 people and has
+an annual revenue of €3.3 billion, of which approximately 30% comes from online purchases.
+
+----
+Title: F5 says hackers stole undisclosed BIG-IP flaws, source code
+URL: https://www.bleepingcomputer.com/news/security/hackers-breach-f5-to-steal-undisclosed-big-ip-flaws-source-code/
+Author: Home
+Published: October 15, 2025
+Summary:
+U.S. cybersecurity company F5 disclosed that nation-state hackers breached its systems and stole
+undisclosed BIG-IP security vulnerabilities and source code. The company states that it first became
+aware of the breach on August 9, 2025, with its investigations revealing that the attackers had
+gained long-term access to its system, including the company's BIG-IP product development
+environment and engineering knowledge management platform.
+
+----
+Title: SimonMed says 1.2 million patients impacted in January data breach
+URL: https://www.bleepingcomputer.com/news/security/simonmed-says-12-million-patients-impacted-in-january-data-breach/
+Author: Home
+Published: October 13, 2025
+Summary:
+U.S. medical imaging provider SimonMed Imaging is notifying more than 1.2 million individuals of a
+data breach that exposed their sensitive information. SimonMed Imaging is an outpatient medical
+imaging and radiology services provider, including MRI and CT scans, X-ray, ultrasound, mammography,
+PET, nuclear medicine, bone density, and interventional radiology procedures.
+
+----
+Title: Harvard investigating breach linked to Oracle zero-day exploit
+URL: https://www.bleepingcomputer.com/news/security/harvard-investigating-breach-linked-to-oracle-zero-day-exploit/
+Author: Home
+Published: October 13, 2025
+Summary:
+Harvard University is investigating a data breach after the Clop ransomware gang listed the school
+on its data leak site, saying the alleged breach was likely caused by a recently disclosed zero-day
+vulnerability in Oracle's E-Business Suite servers. "Harvard is aware of reports that data
+associated with the University has been obtained as a result of a zero-day vulnerability in the
+Oracle E-Business Suite system. This issue has impacted many Oracle E-Business Suite customers and
+is not specific to Harvard," a Harvard University Information Technology spokesperson told
+BleepingComputer.
+
+----
+Title: Hackers claim Discord breach exposed data of 5.5 million users
+URL: https://www.bleepingcomputer.com/news/security/hackers-claim-discord-breach-exposed-data-of-55-million-users/
+Author: Home
+Published: October 8, 2025
+Summary:
+Discord says they will not be paying threat actors who claim to have stolen the data of 5.5 million
+unique users from the company's Zendesk support system instance, including government IDs and
+partial payment information for some people. The company is also pushing back on claims that 2.1
+million photos of government IDs were disclosed in the breach, stating that approximately 70,000
+users had their government ID photos exposed. While the attackers claim the breach occurred through
+Discord's Zendesk support instance, the company has not confirmed this and only described it as
+involving a third-party service used for customer support.
+
+----
+Title: DraftKings warns of account breaches in credential stuffing attacks
+URL: https://www.bleepingcomputer.com/news/security/draftkings-warns-of-account-breaches-in-credential-stuffing-attacks/
+Author: Home
+Published: October 7, 2025
+Summary:
+Sports betting giant DraftKings has notified an undisclosed number of customers that their accounts
+had been hacked in a recent wave of credential stuffing attacks. DraftKings, a gambling company
+based in Boston and founded in 2012, provides sportsbook and daily fantasy sports (DFS) services and
+is an official partner of the NFL, NHL, PGA TOUR, WNBA, UFC, and NASCAR. DraftKings employs over
+5,100 people and reported revenues of $4.77 billion at the end of 2024.
+
+----
+Title: Electronics giant Avnet confirms breach, says stolen data unreadable
+URL: https://www.bleepingcomputer.com/news/security/electronics-giant-avnet-confirms-breach-says-stolen-data-unreadable/
+Author: Home
+Published: October 7, 2025
+Summary:
+Electronic components distributor Avnet confirmed in a statement for BleepingComputer that it
+suffered a data breach but noted that the stolen data is unreadable without proprietary tools. A
+company spokesperson told us that the incident occurred after unauthorized actors accessed a
+database hosted on an external service, which stored information used in the EMEA (Europe, Middle
+East, Africa) region. "Avnet recently identified unauthorized access to externally hosted cloud
+storage supporting an internal sales tool used in EMEA," stated the spokesperson.
+
+----
+Title: Red Hat data breach escalates as ShinyHunters joins extortion
+URL: https://www.bleepingcomputer.com/news/security/red-hat-data-breach-escalates-as-shinyhunters-joins-extortion/
+Author: Home
+Published: October 6, 2025
+Summary:
+Enterprise software giant Red Hat is now being extorted by the ShinyHunters gang, with samples of
+stolen customer engagement reports (CERs) leaked on their data leak site. News of the Red Hat data
+breach broke last week when a hacking group known as the Crimson Collective claimed to have stolen
+nearly 570GB of compressed data across 28,000 internal development repositories. This data allegedly
+includes approximately 800 Customer Engagement Reports (CERs), which can contain sensitive
+information about a customer's network, infrastructure, and platforms.
+
+----
+Title: ParkMobile pays... $1 each for 2021 data breach that hit 22 million
+URL: https://www.bleepingcomputer.com/news/security/parkmobile-pays-1-each-for-2021-data-breach-that-hit-22-million/
+Author: Home
+Published: October 5, 2025
+Summary:
+ParkMobile has finally wrapped up a class action lawsuit over the platform's 2021 data breach that
+hit 22 million users. But there's a catch: victims are receiving compensation in the form of a $1
+in-app credit, which they must claim manually. And, it comes with an expiration date.
+
+----
+Title: Discord discloses data breach after hackers steal support tickets
+URL: https://www.bleepingcomputer.com/news/security/discord-discloses-data-breach-after-hackers-steal-support-tickets/
+Author: Home
+Published: October 4, 2025
+Summary:
+Hackers stole partial payment information and personally identifiable data, including names and
+government-issued IDs, from some Discord users after compromising a third-party customer service
+provider. The attack occurred on September 20 and affected “a limited number of users” who
+interacted with Discord’s customer support and/or Trust and Safety teams. Discord was created as a
+communication platform for gamers, who represent more than 90% of the userbase, but expanded to
+various other communities, allowing text messages, voice chats, and video calls.
+
