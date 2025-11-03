@@ -151,13 +151,10 @@ def summarize_article(url: str) -> dict:
                 continue
             paras.append(txt)
 
-    body_text = " ".join(paras[:6])
+    body_text = " ".join(paras)
 
     if body_text:
-        sentences = re.split(r"(?<=[.?!])\s+", body_text)
-        summary = " ".join(sentences[:3]).strip()
-        if not summary:
-            summary = body_text[:400].rstrip() + "..."
+        summary = body_text.strip()
     else:
         summary = None
 
