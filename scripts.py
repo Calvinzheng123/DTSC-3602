@@ -6,7 +6,24 @@ import json
 import time
 import random
 import textwrap
+from sentence_transformers import SentenceTransformer, util
+import numpy as np
+import pandas as pd
+import os
+import pandas as pd
+from supabase import create_client, Client
+from dotenv import load_dotenv
 
+load_dotenv()  
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+fraud_keywords = "fraud, scam, phishing, data breach, identity theft"
+fraud_embedding = embedding_model.encode(fraud_keywords, convert_to_tensor=True)
 BASE_URL = "https://www.bleepingcomputer.com"
 TAG_URL = "https://www.bleepingcomputer.com/tag/data-breach/"
 
@@ -108,11 +125,11 @@ def summarize_article(url: str) -> dict:
     r.raise_for_status()
     soup = BeautifulSoup(r.text, "html.parser")
 
-    # ---- Title ----
+    #Title 
     title_tag = soup.select_one("h1")
     title = clean_text(title_tag.get_text()) if title_tag else None
 
-    # ---- Published date ----
+    #Published date 
     date_tag = soup.select_one(".cz-news-date")
     published = clean_text(date_tag.get_text()) if date_tag else "unknown"
 
@@ -123,10 +140,10 @@ def summarize_article(url: str) -> dict:
         fallback_tag = soup.select_one('[itemprop="name"]')
         author = clean_text(fallback_tag.get_text()) if fallback_tag else "unknown"
 
-    # ---- Body / Summary ----
+    # body/summary
     paras = []
 
-    # main container (older layout)
+    # main container
     for p in soup.select("div#bc_article_content p"):
         txt = clean_text(p.get_text(" ", strip=True))
         # filter garbage like "Related:"
@@ -136,7 +153,7 @@ def summarize_article(url: str) -> dict:
             continue
         paras.append(txt)
 
-    # fallback: newer container guesses
+    # in case the article has diff elements for whatever reason
     if not paras:
         for p in soup.select(
             "div[id^='bc_article_content'] p, "
@@ -158,7 +175,11 @@ def summarize_article(url: str) -> dict:
     else:
         summary = None
 
-    # Debug if we totally failed to parse useful content
+    if body_text:
+        article_embedding = embedding_model.encode(body_text, convert_to_tensor=True)
+        similarity = util.pytorch_cos_sim(fraud_embedding, article_embedding).item()
+    else:
+        similarity = 0.0
     if author == "unknown" and published == "unknown" and not paras:
         with open("debug_article.html", "w", encoding="utf-8") as f:
             f.write(r.text)
@@ -170,6 +191,7 @@ def summarize_article(url: str) -> dict:
         "author": author,
         "published": published,
         "summary": summary,
+        "similarity": similarity,
     }
 
 
@@ -177,11 +199,9 @@ def write_outputs(results, json_path="breaches.json", txt_path="report.txt"):
     """
     Save output to both JSON (structured) and TXT (readable).
     """
-    # structured / machine-friendly
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
 
-    # human readable
     with open(txt_path, "w", encoding="utf-8") as f:
         for r in results:
             f.write("----\n")
@@ -194,44 +214,58 @@ def write_outputs(results, json_path="breaches.json", txt_path="report.txt"):
             wrapped = textwrap.fill(summary_text, width=100)
             f.write(wrapped + "\n\n")
 
+def insert_df_into_supabase(df: pd.DataFrame, table_name: str = "articles"):
+    #Insert DataFrame rows into a Supabase table.
+    cols_to_keep = ["title", "url", "author", "published", "summary", "similarity"]
+    df_to_insert = df[cols_to_keep].copy()
 
-def main(max_articles=20):
-    # Pull links from tag page
+    # Replace NaN with None so it doesnt break supabase insert
+    df_to_insert = df_to_insert.where(pd.notnull(df_to_insert), None)
+
+    records = df_to_insert.to_dict(orient="records")
+
+    if not records:
+        print("No records to insert into Supabase.")
+        return
+
+    try:
+        resp = supabase.table(table_name).insert(records).execute()
+        print(f"Inserted {len(records)} rows into '{table_name}'")
+    except Exception as e:
+        print(f"Error inserting into Supabase: {e}")
+
+
+def main(max_articles=20, similarity_threshold=0.45):
     links = get_article_links_from_tag(max_links=max_articles)
 
-    # Scrape each article and summarize it
-    results = []
+    all_results = []
+    filtered_results = []
+
     for art in links:
         try:
             data = summarize_article(art["url"])
+            all_results.append(data)
+
+            if data["similarity"] >= similarity_threshold:
+                filtered_results.append(data)
         except Exception as e:
-            data = {
-                "title": art["title"],
-                "url": art["url"],
-                "author": "error",
-                "published": "error",
-                "summary": f"ERROR: {e}",
-            }
-        results.append(data)
+            print(f"Error processing article {art['url']}: {e}")
+    # turns results into a df
+    df = pd.DataFrame(all_results)
+    df = df.sort_values("similarity", ascending=False, ignore_index=True)
 
-    # Save to breaches.json and report.txt
-    write_outputs(results)
+    print("\n All articles with similarity ")
+    print(df[["similarity", "title", "url"]])
 
-    # Print quick preview to console so you can sanity check
-    for r in results:
-        print("----")
-        print(f"Title: {r.get('title')}")
-        print(f"URL: {r.get('url')}")
-        print(f"Author: {r.get('author')}")
-        print(f"Published: {r.get('published')}")
-        print("Summary:")
-        summary_text = r.get("summary") or "None"
-        wrapped = textwrap.fill(summary_text, width=80)
-        print(wrapped)
-        print()
+    # writes results into the txt and json formats
+    write_outputs(filtered_results)
 
-    return results
+    # insert everything into supabase
+    insert_df_into_supabase(df, table_name="articles")
+
+    return df, filtered_results
 
 
 if __name__ == "__main__":
     main(20)
+
