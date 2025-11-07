@@ -1,0 +1,29 @@
+# Ignore Python virtual environment folders
+.venv/
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment files
+.env
+*.env
+
+# Ignore lock and cache files
+*.lock
+*.log
+*.cache/
+CACHEDIR.TAG
+
+# Ignore build and distribution folders
+build/
+dist/
+*.egg-info/
+
+# Ignore system and editor-specific files
+.DS_Store
+.vscode/
+.idea/
