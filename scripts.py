@@ -85,7 +85,11 @@ def get_article_links_from_tag(max_links: int = 300, max_pages: int = 30):
     seen_urls = set()
 
     for page in range(1, max_pages + 1):
-        time.sleep(random.uniform(0.8, 1.6))
+        # be nice to the site: sleep a bit longer between pages to avoid 429s
+        wait = random.uniform(5, 9)
+        print(f"[info] Sleeping {wait:.1f}s before fetching tag page {page}")
+        time.sleep(wait)
+
         url = _tag_page_url(page)
         print(f"[info] Fetching tag page {page}: {url}")
         r = session.get(url, timeout=10)
@@ -100,6 +104,10 @@ def get_article_links_from_tag(max_links: int = 300, max_pages: int = 30):
 
             # must stay on same domain
             if not full_url.startswith(BASE_URL):
+                continue
+
+            # skip comment links
+            if "#comments" in full_url:
                 continue
 
             path = full_url.lower()
@@ -135,7 +143,6 @@ def get_article_links_from_tag(max_links: int = 300, max_pages: int = 30):
             break
 
     return articles
-
 
 def summarize_article(url: str) -> dict:
     """
@@ -259,7 +266,7 @@ def insert_df_into_supabase(df: pd.DataFrame, table_name: str = "articles"):
         return
 
     # de-dupe locally by url just to avoid noise
-    df = df.drop_duplicates(subset=["url"])
+    df = df.drop_duplicates(subset=["title"])
 
     cols_to_keep = ["title", "url", "author", "published", "summary", "similarity"]
     df_to_insert = df[cols_to_keep].copy()
@@ -410,7 +417,7 @@ def main(max_articles=300, similarity_threshold=0.45, max_pages=30):
         return df, pd.DataFrame()
 
     df = df.sort_values("similarity", ascending=False, ignore_index=True)
-    df = df.drop_duplicates(subset=["url"])
+    df = df.drop_duplicates(subset=["title"])
 
     print("\nAll articles with similarity (top 20)")
     print(df[["similarity", "title", "url"]].head(20))
@@ -442,4 +449,4 @@ def main(max_articles=300, similarity_threshold=0.45, max_pages=30):
 
 
 if __name__ == "__main__":
-    main(max_articles=1000, similarity_threshold=0.45, max_pages=30)
+    main(max_articles=2000, similarity_threshold=0.45, max_pages=75)
