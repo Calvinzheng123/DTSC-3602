@@ -10,20 +10,26 @@ from sentence_transformers import SentenceTransformer, util
 import numpy as np
 import pandas as pd
 import os
-import pandas as pd
 from supabase import create_client, Client
 from dotenv import load_dotenv
 
-load_dotenv()  
+import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+#MODELS / CONSTANTS 
+
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 fraud_keywords = "fraud, scam, phishing, data breach, identity theft"
 fraud_embedding = embedding_model.encode(fraud_keywords, convert_to_tensor=True)
+
 BASE_URL = "https://www.bleepingcomputer.com"
 TAG_URL = "https://www.bleepingcomputer.com/tag/data-breach/"
 
@@ -44,64 +50,88 @@ HEADERS = {
 session = requests.Session()
 session.headers.update(HEADERS)
 
+FRAUD_LEXICON = [
+    "ransomware", "phishing", "data leak", "exposed",
+    "credential", "extortion", "identity theft",
+    "malware", "breach", "exfiltration"
+]
+
+#Helpers to clean data
 
 def clean_text(txt: str) -> str:
     """Collapse whitespace and trim."""
     return re.sub(r"\s+", " ", txt).strip()
 
 
-def get_article_links_from_tag(max_links: int = 20):
+def _tag_page_url(page: int) -> str:
+    """Build URL for a given tag page."""
+    base = TAG_URL.rstrip("/")
+    return base + ("/" if page == 1 else f"/page/{page}/")
+
+
+# scraping scripts 
+
+def get_article_links_from_tag(max_links: int = 300, max_pages: int = 30):
     """
-    Fetch ONLY https://www.bleepingcomputer.com/tag/data-breach/
-    Extract article links from that page.
+    Crawl multiple tag pages:
+      /tag/data-breach/
+      /tag/data-breach/page/2/
+      /tag/data-breach/page/3/
+    …until we collect max_links or hit max_pages or a page yields no new links.
 
-    Keep:
-      - internal links
-      - URLs containing '/news/security/' (breach writeups live here)
-      - anchor text with 3+ words (to avoid junk links)
-
-    Return [{title, url}, ...] up to max_links.
+    Return [{title, url}, ...]
     """
-    time.sleep(random.uniform(0.8, 1.6))
-
-    r = session.get(TAG_URL, timeout=10)
-    r.raise_for_status()
-
-    soup = BeautifulSoup(r.text, "html.parser")
-
     articles = []
     seen_urls = set()
 
-    for a in soup.select("a[href]"):
-        href = a["href"].strip()
-        full_url = urljoin(BASE_URL, href)
+    for page in range(1, max_pages + 1):
+        time.sleep(random.uniform(0.8, 1.6))
+        url = _tag_page_url(page)
+        print(f"[info] Fetching tag page {page}: {url}")
+        r = session.get(url, timeout=10)
+        r.raise_for_status()
 
-        # must stay on same domain
-        if not full_url.startswith(BASE_URL):
-            continue
+        soup = BeautifulSoup(r.text, "html.parser")
 
-        # must look like an article, not nav/etc.
-        if "/news/security/" not in full_url.lower():
-            continue
+        new_links = 0
+        for a in soup.select("a[href]"):
+            href = a["href"].strip()
+            full_url = urljoin(BASE_URL, href)
 
-        # skip garbage promo
-        if "webinar" in full_url.lower():
-            continue
+            # must stay on same domain
+            if not full_url.startswith(BASE_URL):
+                continue
 
-        # anchor text as candidate title
-        title = a.get_text(strip=True)
-        if not title or len(title.split()) < 3:
-            continue
+            path = full_url.lower()
 
-        # dedupe
-        if full_url not in seen_urls:
-            seen_urls.add(full_url)
-            articles.append({
-                "title": title,
-                "url": full_url,
-            })
+            # must look like an article
+            if "/news/security/" not in path:
+                continue
 
-        if len(articles) >= max_links:
+            # skip garbage promo
+            if "webinar" in path:
+                continue
+
+            # anchor text as candidate title
+            title = a.get_text(strip=True)
+            if not title:
+                continue  # skip blank anchors
+
+            # dedupe
+            if full_url not in seen_urls:
+                seen_urls.add(full_url)
+                articles.append({
+                    "title": title,
+                    "url": full_url,
+                })
+                new_links += 1
+
+                if len(articles) >= max_links:
+                    return articles
+
+        # if this page produced nothing new, assume pagination is done
+        if new_links == 0:
+            print(f"[info] No new links on page {page}, stopping pagination.")
             break
 
     return articles
@@ -113,11 +143,7 @@ def summarize_article(url: str) -> dict:
       - title from <h1>
       - author from <a rel="author"> ... <span itemprop="name">
       - published date from <li class="cz-news-date">
-      - summary from first ~6 paragraphs
-
-    Assumes:
-      - .cz-news-date exists (your observation)
-      - rel="author" exists wrapping the byline (your observation)
+      - summary from paragraphs
     """
     time.sleep(random.uniform(0.8, 1.6))
 
@@ -125,14 +151,15 @@ def summarize_article(url: str) -> dict:
     r.raise_for_status()
     soup = BeautifulSoup(r.text, "html.parser")
 
-    #Title 
+    # Title
     title_tag = soup.select_one("h1")
     title = clean_text(title_tag.get_text()) if title_tag else None
 
-    #Published date 
+    # Published date
     date_tag = soup.select_one(".cz-news-date")
     published = clean_text(date_tag.get_text()) if date_tag else "unknown"
 
+    # Author
     author_tag = soup.select_one('a[rel="author"] span[itemprop="name"]')
     if author_tag:
         author = clean_text(author_tag.get_text())
@@ -153,7 +180,7 @@ def summarize_article(url: str) -> dict:
             continue
         paras.append(txt)
 
-    # in case the article has diff elements for whatever reason
+    # fallback containers
     if not paras:
         for p in soup.select(
             "div[id^='bc_article_content'] p, "
@@ -180,6 +207,7 @@ def summarize_article(url: str) -> dict:
         similarity = util.pytorch_cos_sim(fraud_embedding, article_embedding).item()
     else:
         similarity = 0.0
+
     if author == "unknown" and published == "unknown" and not paras:
         with open("debug_article.html", "w", encoding="utf-8") as f:
             f.write(r.text)
@@ -194,6 +222,8 @@ def summarize_article(url: str) -> dict:
         "similarity": similarity,
     }
 
+
+# storing the articles
 
 def write_outputs(results, json_path="breaches.json", txt_path="report.txt"):
     """
@@ -214,14 +244,26 @@ def write_outputs(results, json_path="breaches.json", txt_path="report.txt"):
             wrapped = textwrap.fill(summary_text, width=100)
             f.write(wrapped + "\n\n")
 
+
 def insert_df_into_supabase(df: pd.DataFrame, table_name: str = "articles"):
-    #Insert DataFrame rows into a Supabase table.
+    """
+    Upsert into Supabase on url.
+    Requires a UNIQUE constraint on articles.url (which you now have).
+    """
+    if not SUPABASE_URL or not SUPABASE_KEY:
+        print("Supabase env vars missing, skipping Supabase insert.")
+        return
+
+    if df.empty:
+        print("DataFrame empty, skipping Supabase insert.")
+        return
+
+    # de-dupe locally by url just to avoid noise
+    df = df.drop_duplicates(subset=["url"])
+
     cols_to_keep = ["title", "url", "author", "published", "summary", "similarity"]
     df_to_insert = df[cols_to_keep].copy()
-
-    # Replace NaN with None so it doesnt break supabase insert
     df_to_insert = df_to_insert.where(pd.notnull(df_to_insert), None)
-
     records = df_to_insert.to_dict(orient="records")
 
     if not records:
@@ -229,14 +271,124 @@ def insert_df_into_supabase(df: pd.DataFrame, table_name: str = "articles"):
         return
 
     try:
-        resp = supabase.table(table_name).insert(records).execute()
-        print(f"Inserted {len(records)} rows into '{table_name}'")
+        # requires UNIQUE(url) on the table → which you have as articles_url_key
+        supabase.table(table_name).upsert(records, on_conflict="url").execute()
+        print(f"Upserted {len(records)} rows into '{table_name}'")
     except Exception as e:
         print(f"Error inserting into Supabase: {e}")
 
 
-def main(max_articles=20, similarity_threshold=0.45):
-    links = get_article_links_from_tag(max_links=max_articles)
+
+# ------------ ANALYSIS / VISUALS ------------
+
+def normalize_dates(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df["published_dt"] = pd.to_datetime(df["published"], errors="coerce")
+    return df
+
+
+def plot_articles_over_time(df: pd.DataFrame, outfile: str = "articles_per_week.png"):
+    df = normalize_dates(df)
+    df = df.dropna(subset=["published_dt"]).set_index("published_dt")
+
+    if df.empty:
+        print("[info] No valid dates for articles_per_week plot.")
+        return
+
+    weekly = df.resample("W")["url"].count()
+
+    plt.figure(figsize=(10, 5))
+    weekly.plot()
+    plt.title("Articles per Week")
+    plt.xlabel("Week")
+    plt.ylabel("Count")
+    plt.tight_layout()
+    plt.savefig(outfile, dpi=150)
+    plt.close()
+    print(f"[info] Saved {outfile}")
+
+
+def plot_top_phrases(df: pd.DataFrame, outfile: str = "top_phrases.png"):
+    texts = df["summary"].fillna("").tolist()
+    if not any(texts):
+        print("[info] No summaries for top_phrases plot.")
+        return
+
+    vec = TfidfVectorizer(
+        lowercase=True,
+        stop_words="english",
+        ngram_range=(2, 3),
+        min_df=3,
+        max_features=5000
+    )
+    X = vec.fit_transform(texts)
+    scores = np.asarray(X.mean(axis=0)).ravel()
+    terms = np.array(vec.get_feature_names_out())
+
+    if len(terms) == 0:
+        print("[info] No n-grams produced for top_phrases.")
+        return
+
+    top_k = min(10, len(terms))
+    top_idx = scores.argsort()[::-1][:top_k]
+    top_terms = terms[top_idx]
+    top_vals = scores[top_idx]
+
+    plt.figure(figsize=(10, 6))
+    y = np.arange(len(top_terms))[::-1]
+    plt.barh(y, top_vals)
+    plt.yticks(y, top_terms)
+    plt.title("Top Fraud-Related Phrases (TF-IDF, 2–3-grams)")
+    plt.xlabel("Mean TF-IDF")
+    plt.tight_layout()
+    plt.savefig(outfile, dpi=150)
+    plt.close()
+    print(f"[info] Saved {outfile}")
+
+
+def plot_keyword_trends(df: pd.DataFrame, outfile: str = "keyword_trends.png", top_k: int = 5):
+    df = normalize_dates(df)
+    df = df.dropna(subset=["published_dt"]).copy()
+    if df.empty:
+        print("[info] No valid dates for keyword_trends plot.")
+        return
+
+    df["week"] = df["published_dt"].dt.to_period("W").dt.start_time
+    df["lc"] = df["summary"].fillna("").str.lower()
+
+    rows = []
+    for week, grp in df.groupby("week"):
+        text = " ".join(grp["lc"].tolist())
+        counts = {kw: text.count(kw) for kw in FRAUD_LEXICON}
+        counts["week"] = week
+        rows.append(counts)
+
+    trend_df = pd.DataFrame(rows).sort_values("week")
+    if trend_df.empty:
+        print("[info] No data for keyword trends.")
+        return
+
+    totals = trend_df.drop(columns=["week"]).sum().sort_values(ascending=False)
+    keep = totals.head(top_k).index.tolist()
+
+    plt.figure(figsize=(12, 6))
+    for kw in keep:
+        plt.plot(trend_df["week"], trend_df[kw], label=kw)
+    plt.title("Fraud Keyword Mentions Over Time")
+    plt.xlabel("Week")
+    plt.ylabel("Mentions")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(outfile, dpi=150)
+    plt.close()
+    print(f"[info] Saved {outfile}")
+
+
+# ------------ MAIN PIPELINE ------------
+
+def main(max_articles=300, similarity_threshold=0.45, max_pages=30):
+    links = get_article_links_from_tag(max_links=max_articles, max_pages=max_pages)
+    print(f"[info] collected {len(links)} article links")
 
     all_results = []
     filtered_results = []
@@ -250,22 +402,44 @@ def main(max_articles=20, similarity_threshold=0.45):
                 filtered_results.append(data)
         except Exception as e:
             print(f"Error processing article {art['url']}: {e}")
-    # turns results into a df
+
     df = pd.DataFrame(all_results)
+
+    if df.empty:
+        print("[info] No articles scraped. Exiting.")
+        return df, pd.DataFrame()
+
     df = df.sort_values("similarity", ascending=False, ignore_index=True)
+    df = df.drop_duplicates(subset=["url"])
 
-    print("\n All articles with similarity ")
-    print(df[["similarity", "title", "url"]])
+    print("\nAll articles with similarity (top 20)")
+    print(df[["similarity", "title", "url"]].head(20))
+    print(f"[info] total articles in df: {len(df)}")
 
-    # writes results into the txt and json formats
-    write_outputs(filtered_results)
+    # save snapshots
+    df.to_csv("articles_all.csv", index=False)
+    print("[info] Saved articles_all.csv")
+
+    fraud_df = df[df["similarity"] >= similarity_threshold].copy()
+    fraud_df.to_csv("fraud_articles.csv", index=False)
+    print(f"[info] Saved fraud_articles.csv with {len(fraud_df)} rows")
+
+    # write human-readable outputs for filtered (fraud-like) ones
+    write_outputs(fraud_df.to_dict(orient="records"))
+
+    # visuals for the filtered set
+    if not fraud_df.empty:
+        plot_articles_over_time(fraud_df)
+        plot_top_phrases(fraud_df)
+        plot_keyword_trends(fraud_df)
+    else:
+        print("[info] No articles above similarity threshold; skipping plots.")
 
     # insert everything into supabase
     insert_df_into_supabase(df, table_name="articles")
 
-    return df, filtered_results
+    return df, fraud_df
 
 
 if __name__ == "__main__":
-    main(20)
-
+    main(max_articles=1000, similarity_threshold=0.45, max_pages=30)
