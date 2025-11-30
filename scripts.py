@@ -391,9 +391,7 @@ def plot_keyword_trends(df: pd.DataFrame, outfile: str = "keyword_trends.png", t
     print(f"[info] Saved {outfile}")
 
 
-# ------------ MAIN PIPELINE ------------
-
-def main(max_articles=300, similarity_threshold=0.45, max_pages=30):
+def main(max_articles=300, similarity_threshold=0.55, max_pages=30):
     links = get_article_links_from_tag(max_links=max_articles, max_pages=max_pages)
     print(f"[info] collected {len(links)} article links")
 
@@ -449,4 +447,4 @@ def main(max_articles=300, similarity_threshold=0.45, max_pages=30):
 
 
 if __name__ == "__main__":
-    main(max_articles=2000, similarity_threshold=0.45, max_pages=75)
+    main(max_articles=2000, similarity_threshold=0.55, max_pages=75)
