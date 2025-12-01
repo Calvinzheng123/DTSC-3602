@@ -32,7 +32,9 @@ The process is split into a few stages.
  - Upload the fraud articles dataset to **Supabase**
  - Use **Streamlit** to deploy app and visualizations.
 
-![Chart showing the amount of fraud related articles each month, from the earliest date we scraped an article from until today](fraudarticlespermonth.png)
+![First picture of deployment, showing basic charts and filters](images/streamlitdeployment1.png)
+
+![Second picture of deployment, showing article explorer and summary](images/streamlitdeployment2.png)
 
 ---
 
@@ -93,3 +95,4 @@ Simple example visual chart, displaying how often different keywords show up wit
  - Incredibly important for the Cybersecurity world, allowing easy access to specific searches.
  - Streamlined system to find similarity in fraud cases.
 ---
+
