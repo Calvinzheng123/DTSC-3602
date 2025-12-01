@@ -90,13 +90,9 @@ Simple example visual chart, displaying how often different keywords show up wit
  - **BeautifulSoup4**, **requests**, **urljoin**, **json** - Scraping, parsing, transformation
 ---
 
-## ❓ Why?
- - This allows for experts to find specific articles and trends relating to different types of frauds.
- - Incredibly important for the Cybersecurity world, allowing easy access to specific searches.
- - Streamlined system to find similarity in fraud cases.
----
-
 ## 🎯 Findings
  - Keyword trends and frequencies about different types of fraud in cybersecurity.
  - Industries affected because of cybersecurity fraud and which ones are most affected.
  - Deployment of **Streamlit** app allowed ease of access for specific topics.
+ - This allows for experts to find specific articles and trends relating to different types of frauds.
+ - Streamlined system to find similarity in fraud cases.
