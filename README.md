@@ -86,4 +86,10 @@ Simple example visual chart, displaying how often different keywords show up wit
  - **sentence_transformer** - embedding models
  - **Pandas**, **Matplotlib** - visualizations, modeling, analysis
  - **BeautifulSoup4**, **requests**, **urljoin**, **json** - Scraping, parsing, transformation
+---
 
+## Why?
+ - This allows for experts to find specific articles and trends relating to different types of frauds.
+ - Incredibly important for the Cybersecurity world, allowing easy access to specific searches.
+ - Streamlined system to find similarity in fraud cases.
+---
