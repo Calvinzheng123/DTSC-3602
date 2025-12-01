@@ -73,6 +73,8 @@ Using embedding models, we were able to parse and collect articles of different 
  - Specific functions to summarize articles 
  - Follow up with visualizations for the summaries and fraud keywords
 
+![Image displaying the most frequent keyword trends that show up in the BleepingComputer articles](.assets/images/keyword_trends.png)
+
 ## 🚀 Tech Stack
  - **Python 3.12**
  - **Streamlit** - interactive dashboard application
