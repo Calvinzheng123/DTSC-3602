@@ -33,6 +33,8 @@ The process is split into a few stages.
  - Upload the fraud articles dataset to **Supabase**
  - Use **Streamlit** to deploy app and visualizations.
 
+![Chart showing the amount of fraud related articles each month, from the earliest date we scraped an article from until today](fraudarticlespermonth.png)
+
 ---
 
 ## Installation & Setup
