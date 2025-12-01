@@ -10,7 +10,7 @@
 ---
 
 ## Project Summary
-This GitHub reepository contains the full code, including scrapers, readers, and analysis, regarding the **USAA Fraud Project** as part of a final project in **Predictive Analytics at UNC Charlotte**.
+This GitHub repository contains the full code, including scrapers, readers, and analysis, regarding the **USAA Fraud Project** as part of a final project in **Predictive Analytics at UNC Charlotte**.
 
 This includes the processes of scraping articles from the cybersecurity website, **"BleepingComputer"**, following that up with analysis, modeling, and finally deployment using **Streamlit**. 
 ---
