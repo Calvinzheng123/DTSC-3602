@@ -96,3 +96,7 @@ Simple example visual chart, displaying how often different keywords show up wit
  - Streamlined system to find similarity in fraud cases.
 ---
 
+## 🎯 Findings
+ - Keyword trends and frequencies about different types of fraud in cybersecurity.
+ - Industries affected because of cybersecurity fraud and which ones are most affected.
+ - Deployment of **Streamlit** app allowed ease of access for specific topics.
