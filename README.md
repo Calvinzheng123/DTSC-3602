@@ -96,3 +96,6 @@ Simple example visual chart, displaying how often different keywords show up wit
  - Deployment of **Streamlit** app allowed ease of access for specific topics.
  - This allows for experts to find specific articles and trends relating to different types of frauds.
  - Streamlined system to find similarity in fraud cases.
+---
+
+[Presentation Demo](https://peytonsharpe3--dtsc3602-streamlit-run.modal.run/)
